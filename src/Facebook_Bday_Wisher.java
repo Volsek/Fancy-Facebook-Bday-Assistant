@@ -1,9 +1,8 @@
-import com.google.common.escape.UnicodeEscaper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,7 +10,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -73,24 +71,32 @@ public class Facebook_Bday_Wisher {
             }
             Xpath = new String("(//div[@id=\"birthdays_content\"]//div[@class=\"" + Classname + "\"])[1]//child::textarea");
             if (driver.findElementsByXPath(Xpath).size() > 0) {
-                Xpath = new String("(//div[@id=\"birthdays_content\"]//div[@class=\"" + Classname + "\"])[1]//child::a[@title]");
-                var overallclass = driver.findElementsByXPath(Xpath);
-                List<String> names = new ArrayList<>();
-                for (var anchor : overallclass) {
-                    names.add(anchor.getAttribute("title"));
+                Xpath = new String("(//div[@id=\"birthdays_content\"]//div[@class=\""+Classname+"\"])[1]//child::li[@class]");
+                ArrayList<Birthday_Person> BirthdayPeople_list = new ArrayList();
+                var ListOfbdaypeople_element = driver.findElementsByXPath(Xpath);
+                for (var item: ListOfbdaypeople_element) {
+                    Xpath = new String(".//textarea");
+                    var Textbox = item.findElements(By.xpath(Xpath));
+                    if(!Textbox.isEmpty()){
+                        Xpath = new String(".//a[@title]");
+                        String Name = item.findElement(By.xpath(Xpath)).getAttribute("title");
+                        Birthday_Person tmp = new Birthday_Person(Name , Textbox.get(0));
+                        BirthdayPeople_list.add(tmp);
+                    }
                 }
+
+
+
+
                 //todo remove logging
-                for (String name :
-                        names) {
-                    Log(name);
+                for (var bdayperson : BirthdayPeople_list) {
+                    Log(bdayperson.Name);
                 }
                 //Post to facebook
-                Xpath = new String("(//div[@id=\"birthdays_content\"]//div[@class=\"" + Classname + "\"])[1]//child::textarea");
-                var alltextboxes = driver.findElementsByXPath(Xpath);
-                for (int i = 0; i < alltextboxes.size(); i++) {
-                    spacePos = names.get(i).indexOf(" ");
-                    var first_name = names.get(i).substring(0, spacePos);
-                    alltextboxes.get(i).sendKeys("Happy Birthday " + first_name + "!" + Keys.ENTER);
+                for (var Birthdayperson: BirthdayPeople_list) {
+                    spacePos = Birthdayperson.Name.indexOf(" ");
+                    var first_name = Birthdayperson.Name.substring(0, spacePos);
+                    Birthdayperson.Textbox.sendKeys("Happy Birthday " + first_name + "!" + Keys.ENTER);
                 }
             }
 
@@ -98,10 +104,20 @@ public class Facebook_Bday_Wisher {
         } else {
             Log("No Birthdays Found today");
         }
+        //driver.quit();
+
 
     }
 
     private static void Log(String msg) {
         System.out.println(msg);
+    }
+    static class Birthday_Person{
+        String Name;
+        WebElement Textbox;
+        Birthday_Person(String name, WebElement textbox){
+            Name = name;
+            Textbox = textbox;
+        }
     }
 }
