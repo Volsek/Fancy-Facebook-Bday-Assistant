@@ -1,6 +1,8 @@
 <h1 align="center">Welcome to Fancy Facebook Bday Assistant 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000" />
+  <img src="https://img.shields.io/github/last-commit/Volsek/Fancy-Facebook-Bday-Assistant"/>
+  <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
   <a href="https://github.com/Volsek/Fancy-Facebook-Bday-Assistant/blob/master/LICENSE" target="_blank">
     <img alt="License: GPL--3.0" src="https://img.shields.io/badge/License-GPL--3.0-yellow.svg" />
   </a>
@@ -20,7 +22,8 @@
 ## Usage
 
 ```sh
-Load up project in your prefered IDE (I used IntelliJ),add libraries (I used Maven) and run the Main method in the Facebook_Bday_Wisher class
+Load up project in your prefered IDE (I used IntelliJ),add libraries (I used Maven) and 
+run the Main method in the Facebook_Bday_Wisher class
 ```
 
 ## Author
