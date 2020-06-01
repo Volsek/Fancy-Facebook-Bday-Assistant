@@ -10,10 +10,17 @@
 
 ### 🏠 [Homepage](https://github.com/Volsek/Fancy-Facebook-Bday-Assistant)
 
+
+## Prerequisites
+
+- Webdriver manager
+- Apache Commons
+- Selenium
+
 ## Usage
 
 ```sh
-Load up project in your prefered IDE (I used IntelliJ) and run the Main method in the Facebook_Bday_Wisher class
+Load up project in your prefered IDE (I used IntelliJ),add libraries (I used Maven) and run the Main method in the Facebook_Bday_Wisher class
 ```
 
 ## Author
