@@ -13,7 +13,7 @@
 ## Usage
 
 ```sh
-Load up project in your prefered IDE (I used IntelliJ) and run the Main method in the Facebook_Bday_Wisher
+Load up project in your prefered IDE (I used IntelliJ) and run the Main method in the Facebook_Bday_Wisher class
 ```
 
 ## Author
@@ -21,10 +21,11 @@ Load up project in your prefered IDE (I used IntelliJ) and run the Main method i
 👤 **Dawid Jedryszczak**
 
 * Github: [@Volsek](https://github.com/Volsek)
+* Linkedin: [@Volsek](https://www.linkedin.com/in/dawid-jedryszczak/)
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Volsek/Fancy-Facebook-Bday-Assistant/issues). You can also take a look at the [contributing guide](https://github.com/Volsek/Fancy-Facebook-Bday-Assistant/pulls).
+Contributions, issues and feature requests are [welcome](https://github.com/Volsek/Fancy-Facebook-Bday-Assistant/pulls)!<br />Feel free to check [issues page](https://github.com/Volsek/Fancy-Facebook-Bday-Assistant/issues). Or simply drop me a message!
 
 ## Show your support
 
