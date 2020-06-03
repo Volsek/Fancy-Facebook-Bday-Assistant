@@ -1,12 +1,14 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.text.StringEscapeUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -97,46 +99,53 @@ public class Facebook_Bday_Wisher {
     private static void Check_For_Birthdays(ChromeDriver driver) {
         String Xpath;
         //Gets today's class name, they change everyday and the first sequence of today's card corresponds to today's birthday card
-        var Classname = driver.findElement(By.id("birthdays_today_card")).getAttribute("class");
-        int spacePos = Classname.indexOf(" ");
-        if (spacePos > 0) {
-            Classname = Classname.substring(0, spacePos);
-        }
-        Xpath = StringEscapeUtils.escapeJava("(//div[@id='birthdays_content']//div[@class='" + Classname + "'])[1]//child::textarea");
-
-        //Perform check to see if there are any Birthdays today and if so then gather the profiles
-        //I.e Names and Text boxes to send birthday wishes
-        if (driver.findElements(By.id("birthdays_today_card")).size() != 0 && driver.findElementsByXPath(Xpath).size() > 0) {
-            Xpath = StringEscapeUtils.escapeJava("(//div[@id='birthdays_content']//div[@class='" + Classname + "'])[1]//child::li[@class]");
-
-            var BirthdayPeople_List = new ArrayList();
-            var li_list = driver.findElementsByXPath(Xpath);
-
-            for (var item : li_list) {
-                Xpath = StringEscapeUtils.escapeJava(".//textarea");
-                var Textbox = item.findElements(By.xpath(Xpath));
-                if (!Textbox.isEmpty()) {
-                    Xpath = StringEscapeUtils.escapeJava(".//a[@title]");
-                    String Name = item.findElement(By.xpath(Xpath)).getAttribute("title");
-                    Birthday_Person tmp = new Birthday_Person(Name, Textbox.get(0));
-                    BirthdayPeople_List.add(tmp);
-                }
+        try {
+            var Classname = driver.findElement(By.id("birthdays_today_card")).getAttribute("class");
+            int spacePos = Classname.indexOf(" ");
+            if (spacePos > 0) {
+                Classname = Classname.substring(0, spacePos);
             }
+            Xpath = StringEscapeUtils.escapeJava("(//div[@id='birthdays_content']//div[@class='" + Classname + "'])[1]//child::textarea");
+
+            //Perform check to see if there are any Birthdays today and if so then gather the profiles
+            //I.e Names and Text boxes to send birthday wishes
+
+            if (driver.findElement(By.id("birthdays_today_card")) != null && driver.findElementsByXPath(Xpath).size() > 0) {
+                Xpath = StringEscapeUtils.escapeJava("(//div[@id='birthdays_content']//div[@class='" + Classname + "'])[1]//child::li[@class]");
+
+                var BirthdayPeople_List = new ArrayList();
+                var li_list = driver.findElementsByXPath(Xpath);
+
+                for (var item : li_list) {
+                    Xpath = StringEscapeUtils.escapeJava(".//textarea");
+                    var Textbox = item.findElements(By.xpath(Xpath));
+                    if (!Textbox.isEmpty()) {
+                        Xpath = StringEscapeUtils.escapeJava(".//a[@title]");
+                        String Name = item.findElement(By.xpath(Xpath)).getAttribute("title");
+                        Birthday_Person tmp = new Birthday_Person(Name, Textbox.get(0));
+                        BirthdayPeople_List.add(tmp);
+                    }
+                }
 
                 Post_Wishes_to_Facebook(BirthdayPeople_List);
-        } else {
+            } else {
+                Log("All birthday messages have been sent");
+            }
+        } catch (NoSuchElementException elementException) {
             Log("No Birthdays Found today");
+
         }
     }
 
-    private static void Post_Wishes_to_Facebook( ArrayList<Birthday_Person> Birthday_List) {
+    private static void Post_Wishes_to_Facebook(ArrayList<Birthday_Person> Birthday_List) {
         //Post to facebook
         int spacePos;
         for (var person : Birthday_List) {
             spacePos = person.Name.indexOf(" ");
             var first_name = person.Name.substring(0, spacePos);
-            person.Textbox.sendKeys("Happy Birthday " + first_name + "!"); //+ Keys.ENTER); todo add back the confirm after testing
+            person.Textbox.sendKeys("Happy Birthday " + first_name + "!"+ Keys.ENTER);
         }
+        Log(Birthday_List.size() + " birthdays have been wished");
     }
 
     static class Birthday_Person {
