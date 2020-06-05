@@ -18,6 +18,7 @@
 - Webdriver manager
 - Apache Commons
 - Selenium
+- Jasypt
 
 ## Usage
 
