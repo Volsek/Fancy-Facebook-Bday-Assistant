@@ -1,5 +1,8 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+
 import org.apache.commons.text.StringEscapeUtils;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.properties.EncryptableProperties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -8,7 +11,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -22,6 +24,8 @@ public class Facebook_Bday_Wisher {
 
     public static void main(String[] args) throws IOException {
         //Load config file or set it up if not already created
+
+
 
         ConfigSetup();
 
@@ -46,24 +50,29 @@ public class Facebook_Bday_Wisher {
         System.out.println(msg);
     }
 
+
+
+
     private static void ConfigSetup() throws IOException {
         Log("Checking Config File");
-        Properties settings = new Properties();
+        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+        encryptor.setPassword("$dUFy+jf2L2wZ7&m");
+        Properties settings = new EncryptableProperties(encryptor);
         try {
             InputStream inputStream = new FileInputStream(System.getProperty("user.dir") + "\\settings.properties");
             settings.load(inputStream);
-            email = settings.getProperty("Email");
-            password = settings.getProperty("Password");
+            email = encryptor.decrypt(settings.getProperty("Email"));
+            password = encryptor.decrypt(settings.getProperty("Password"));
         } catch (IOException e) {
             OutputStream outputStream = new FileOutputStream(System.getProperty("user.dir") + "\\settings.properties");
             Scanner scanner = new Scanner(System.in);
             Log("Email:");
-            settings.setProperty("Email", scanner.next());
+            settings.setProperty("Email", encryptor.encrypt(scanner.next()));
             Log("Password:");
-            settings.setProperty("Password", scanner.next());
+            settings.setProperty("Password", encryptor.encrypt(scanner.next()));
             settings.store(outputStream, null);
-            email = settings.getProperty("Email");
-            password = settings.getProperty("Password");
+            email = encryptor.decrypt(settings.getProperty("Email"));
+            password = encryptor.decrypt(settings.getProperty("Password"));
         }
     }
 
@@ -147,6 +156,8 @@ public class Facebook_Bday_Wisher {
         }
         Log(Birthday_List.size() + " birthdays have been wished");
     }
+
+
 
     static class Birthday_Person {
         String Name;
