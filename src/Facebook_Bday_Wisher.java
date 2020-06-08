@@ -42,7 +42,7 @@ public class Facebook_Bday_Wisher {
         System.out.println("Program has ended, please type 'exit' to close the console");
 
 
-        //driver.quit();
+        driver.quit();
 
 
     }
