@@ -1,5 +1,5 @@
+import com.sun.tools.javac.Main;
 import io.github.bonigarcia.wdm.WebDriverManager;
-
 import org.apache.commons.text.StringEscapeUtils;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.properties.EncryptableProperties;
@@ -12,9 +12,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.*;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Scanner;
+import java.awt.GraphicsEnvironment;
+import java.net.URISyntaxException;
 
 
 public class Facebook_Bday_Wisher {
@@ -24,9 +27,6 @@ public class Facebook_Bday_Wisher {
 
     public static void main(String[] args) throws IOException {
         //Load config file or set it up if not already created
-
-
-
         ConfigSetup();
 
         //Setup Chrome Driver
@@ -39,6 +39,7 @@ public class Facebook_Bday_Wisher {
 
         //Check if there are any Birthdays today
         Check_For_Birthdays(driver);
+        System.out.println("Program has ended, please type 'exit' to close the console");
 
 
         //driver.quit();
@@ -64,15 +65,27 @@ public class Facebook_Bday_Wisher {
             email = encryptor.decrypt(settings.getProperty("Email"));
             password = encryptor.decrypt(settings.getProperty("Password"));
         } catch (IOException e) {
-            OutputStream outputStream = new FileOutputStream(System.getProperty("user.dir") + "\\settings.properties");
-            Scanner scanner = new Scanner(System.in);
-            Log("Email:");
-            settings.setProperty("Email", encryptor.encrypt(scanner.next()));
-            Log("Password:");
-            settings.setProperty("Password", encryptor.encrypt(scanner.next()));
-            settings.store(outputStream, null);
-            email = encryptor.decrypt(settings.getProperty("Email"));
-            password = encryptor.decrypt(settings.getProperty("Password"));
+            Console console = System.console();
+            if(console == null && !GraphicsEnvironment.isHeadless()){
+                File File = new File(Facebook_Bday_Wisher.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+                String filename = File.getAbsolutePath();
+                Log(filename);
+                ProcessBuilder processBuilder = new ProcessBuilder("cmd","/c","start","cmd","/k","java -jar \"" + filename + "\"");
+                processBuilder.start();
+                System.exit(0);
+            }else{
+                OutputStream outputStream = new FileOutputStream(System.getProperty("user.dir") + "\\settings.properties");
+                Scanner scanner = new Scanner(System.in);
+                Log("Email:");
+                settings.setProperty("Email", encryptor.encrypt(scanner.next()));
+                Log("Password:");
+                settings.setProperty("Password", encryptor.encrypt(scanner.next()));
+                settings.store(outputStream, null);
+                email = encryptor.decrypt(settings.getProperty("Email"));
+                password = encryptor.decrypt(settings.getProperty("Password"));
+
+            }
+
         }
     }
 
@@ -152,7 +165,7 @@ public class Facebook_Bday_Wisher {
         for (var person : Birthday_List) {
             spacePos = person.Name.indexOf(" ");
             var first_name = person.Name.substring(0, spacePos);
-            person.Textbox.sendKeys("Happy Birthday " + first_name + "!"+ Keys.ENTER);
+            person.Textbox.sendKeys("Happy Birthday " + first_name + "!" + Keys.ENTER);
         }
         Log(Birthday_List.size() + " birthdays have been wished");
     }
