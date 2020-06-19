@@ -8,23 +8,19 @@
   </a>
 </p>
 
-> At its core, it is a simple program which posts a birthday message to your friends birthday card yet it will have added detection to recognise your friend's name and perform different tasks based on the settings such as change the pre-set message and much more!
+> Program which posts to a Birthday message to your friends, can detect the name and whether its English or Polish and based of that, it wishes in the correct language.
 
 ### 🏠 [Homepage](https://github.com/Volsek/Fancy-Facebook-Bday-Assistant)
 
 
 ## Prerequisites
 
-- Webdriver manager
-- Apache Commons
-- Selenium
-- Jasypt
+- Java SE Development Kit 14
 
 ## Usage
 
 ```sh
-Load up project in your prefered IDE (I used IntelliJ),add libraries (I used Maven) and 
-run the Main method in the Facebook_Bday_Wisher class
+Run the Jar File
 ```
 
 ## Author
