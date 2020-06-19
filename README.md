@@ -3,6 +3,8 @@
   <img alt="Version" src="https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000" />
   <img src="https://img.shields.io/github/last-commit/Volsek/Fancy-Facebook-Bday-Assistant"/>
   <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
+  <img src="https://img.shields.io/badge/Finished%3F-Not%20yet-brightgreen"/>
+  
   <a href="https://github.com/Volsek/Fancy-Facebook-Bday-Assistant/blob/master/LICENSE" target="_blank">
     <img alt="License: GPL--3.0" src="https://img.shields.io/badge/License-GPL--3.0-yellow.svg" />
   </a>
