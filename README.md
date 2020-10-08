@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Fancy Facebook Bday Assistant 👋</h1>
+<h1 align="center">[Outdated]Welcome to Fancy Facebook Bday Assistant 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
   <img src="https://img.shields.io/github/last-commit/Volsek/Fancy-Facebook-Bday-Assistant"/>
